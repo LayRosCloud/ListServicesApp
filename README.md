@@ -58,4 +58,10 @@
     
     
     3.7 Страница адаптированная под редактирование любой записи для любой таблицы, EditPage
+```mermaid
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+```
 
