@@ -59,9 +59,20 @@
     
     3.7 Страница адаптированная под редактирование любой записи для любой таблицы, EditPage
 ```mermaid
-erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    ORDER ||--|{ LINE-ITEM : contains
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+graph TD
+    U(User)-->|role_id| R(Role)
+    C(Client)-->|ClientID| TOF
+    TOF(TagOfClient)-->|TagID|T(Tag)
+    G(Gender) --> |GenderCode| C
+    C --> |ClientID| CS(ClientService)
+    CS -->|ClientServiceID| DBS(DocumentByService)
+    S(Service) -->|ServiceID|CS
+    S -->|ServiceID|SP(ServicePhoto)
+    CS -->|ClientServiceID|PS(ProductSale)
+    P(Product)-->|ProductID|PS
+    P-->|ProductID|AP(AttachedProduct)
+    P-->|AttachedProductID|AP(AttachedProduct)
+    P-->|ProductID| PP(PhotoPath)
+    M(Manufacturer)-->|ManufacturerID| P
 ```
 
