@@ -1,0 +1,145 @@
+﻿<Page x:Class="ApplicationForBD.Pages.ServicesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ApplicationForBD.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="690" d:DesignWidth="980"
+      Title="Услуги" x:Name="pageService">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <!--Список настроенный на плиточное отображение услуг-->
+        <ListView Grid.Row="1"
+                  x:Name="listUser" 
+                  Background="Transparent" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                  HorizontalContentAlignment="Center" 
+                  BorderThickness="0">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="245" Height="300" VerticalAlignment="Center" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <Border CornerRadius="10" Grid.RowSpan="3">
+                            <Border.Background>
+                                <RadialGradientBrush RadiusX="1" RadiusY="1">
+                                    <GradientStop Color="#408DD2" Offset="0"/>
+                                    <GradientStop Color="#FF25649E" Offset="1"/>
+                                </RadialGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <Image Width="200" Height="150" VerticalAlignment="Center" Source="{Binding MainImagePath, TargetNullValue='../nonImage.png'}"/>
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Path=Id}" Visibility="Collapsed"/>
+                            <TextBlock Text="{Binding Path=Title}" HorizontalAlignment="Center" FontSize="15" Foreground="#FFF" Opacity="0.9" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Path=Cost, StringFormat={}{0:N2}₽}" Foreground="#e7fabf" Margin="0 5 0 -6" TextDecorations="Strikethrough" Visibility="{Binding EqualsDiscountAndCost}"/>
+                            <TextBlock Text="{Binding Path=DiscountPrice, StringFormat={}{0:N2}₽}" FontSize="20" FontWeight="Bold" Foreground="#FFF"/>
+                            <TextBlock Text="{Binding Path=Description, TargetNullValue='описания нет...'}" Foreground="#FFF" TextWrapping="Wrap" Opacity="0.8"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="0 0 0 0" Grid.Row="2">
+                            <TextBlock Text="{Binding Path=DurationInSeconds, StringFormat={}Идет {0:F0} минут}" Margin="0 0 80 0" Foreground="#FFF" Opacity="0.5"/>
+                            <Button Content="В корзину" Background="#FFB9FF20" Width="80" Height="20" Foreground="#b07d2b" Cursor="Hand" BorderThickness="0" Style="{StaticResource ExitButton}" Click="Button_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <!--Вверхняя панель для функций-->
+        <StackPanel Orientation="Horizontal" Background="#FF7B97B1">
+            <!--Поиск-->
+            <TextBox x:Name="findTextBox" 
+                     Width="200" 
+                     Text="Поиск..." 
+                     VerticalContentAlignment="Center" 
+                     BorderThickness="0" 
+                     FontSize="15" 
+                     Foreground="#999" 
+                     IsKeyboardFocusedChanged="findTextBox_IsKeyboardFocusedChanged" 
+                     PreviewKeyDown="findTextBox_PreviewKeyDown" 
+                     IsKeyboardFocusWithinChanged="findTextBox_IsKeyboardFocusWithinChanged"/>
+            <Image Source="/images/searchIcon.png"/>
+            <!--Слайдер с двумя точками-->
+            <local:RangeSlider x:Name="betweenSlider" Maximum="{Binding ElementName=pageService, Path=MaxValue}" Minimum="{Binding ElementName=pageService, Path=MinValue}" LowerValue="{Binding ElementName=pageService, Path=MinValue}" UpperValue="{Binding ElementName=pageService, Path=MaxValue}" VerticalAlignment="Center" Width="200"
+                               FirstSlider="betweenSlider_FirstSlider" SecondSlider="betweenSlider_SecondSlider"/>
+            
+            <!--Кнопка сортировки-->
+            <Button x:Name="orderButton" 
+                    Style="{StaticResource ExitButton}"
+                    Visibility="Visible" 
+                    Click="orderButton_Click">
+                <Image Source="/images/OrderByNoDesk.png"/>
+            </Button>
+            <Button x:Name="orderDeskButton" 
+                    Style="{StaticResource ExitButton}" 
+                    Visibility="Collapsed" 
+                    Click="orderDeskButton_Click">
+                <Image Source="/images/OrderByDesk.png"/>
+            </Button>
+            
+            <!--Выпадающий список позволяющий выбрать по чему сортировать-->
+            <ComboBox BorderThickness="0" 
+                      Background="#000" 
+                      Text="Сортировать.." 
+                      VerticalContentAlignment="Center" 
+                      Foreground="#000" 
+                      Width="100" 
+                      HorizontalContentAlignment="Center" 
+                      IsReadOnly="True" 
+                      IsEditable="True">
+                <ComboBoxItem x:Name="costComboBox" IsSelected="False" Selected="costComboBox_Selected">
+                    <TextBlock Text="По цене"/>
+                </ComboBoxItem>
+                <ComboBoxItem x:Name="alphabetComboBox" IsSelected="False" Selected="costComboBox_Selected">
+                    <TextBlock Text="По алфавиту"/>
+                </ComboBoxItem>
+                <ComboBoxItem x:Name="timeComboBox" IsSelected="False" Selected="costComboBox_Selected">
+                    <TextBlock Text="По времени"/>
+                </ComboBoxItem>
+            </ComboBox>
+            <!--Скидка чекбокс-->
+            <CheckBox x:Name="DiscountCheck" 
+                      VerticalAlignment="Center" 
+                      Content="Только со скидкой" 
+                      Foreground="#FFF" 
+                      BorderThickness="0" 
+                      IsChecked="False" 
+                      Checked="CheckBox_Checked" 
+                      Unchecked="CheckBox_Checked"/>
+        </StackPanel>
+        
+        <!--Корзина покупок-->
+        <Button Style="{StaticResource ExitButton}" 
+                HorizontalAlignment="Right" 
+                Click="Button_Click_1">
+            <Grid>
+                <Image Source="/images/busket.png"/>
+                <!--Количество товара в корзине-->
+                <Border CornerRadius="30" 
+                        Width="25" 
+                        Height="25" 
+                        VerticalAlignment="Top" 
+                        HorizontalAlignment="Right" 
+                        x:Name="borderCount">
+                    <Border.Background>
+                        <SolidColorBrush Color="#FFFFAD1A"/>
+                    </Border.Background>
+                    <TextBlock x:Name="countListService" Foreground="#FFF" Text="100" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                </Border>
+            </Grid>
+        </Button>
+    </Grid>
+</Page>

@@ -1,0 +1,14 @@
+﻿<Page x:Class="ApplicationForBD.Pages.AdminPanel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ApplicationForBD.Pages"
+      xmlns:local2 ="clr-namespace:ApplicationForBD"
+      mc:Ignorable="d" 
+      d:DesignHeight="690" d:DesignWidth="980"
+      Title="AdminPanel">
+    
+      <!--Динамическое создание вкладок через код. Простая настройка TabControl-->
+      <TabControl Background="Transparent" x:Name="tabControl" BorderThickness="0"/>
+</Page>

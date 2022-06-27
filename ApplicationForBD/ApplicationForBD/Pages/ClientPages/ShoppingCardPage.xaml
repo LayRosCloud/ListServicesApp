@@ -1,0 +1,123 @@
+﻿<Page x:Class="ApplicationForBD.Pages.ShoppingCardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ApplicationForBD.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="690" d:DesignWidth="980"
+      Title="ShoppingCardPage" x:Name="page">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <!--Кнопка возращающая обратно-->
+        <Button Width="40" 
+                HorizontalAlignment="Left" 
+                Background="Transparent" 
+                BorderThickness="0"
+                Click="Button_Click">
+            <Border Width="35" Height="35" CornerRadius="100">
+                <Border.Background>
+                    <SolidColorBrush Color="#FFF"/>
+                </Border.Background>
+                <TextBlock x:Name="backButton" Text="Назад" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+        </Button>
+        
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" x:Name="nothingService">
+            <TextBlock Text="Добавьте " Foreground="#FFF" FontSize="40"/>
+            <TextBlock Text="услугу" Foreground="#FFEDE9B6" FontSize="40"/>
+            <TextBlock Text=" в корзину..." Foreground="#FFF" FontSize="40"/>
+        </StackPanel>
+        <!--Список настроенный на товар-->
+            <ListView Grid.Row="1" 
+                      BorderThickness="0" 
+                      Background="Transparent" 
+                      x:Name="listServicesBuy" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="700" Height="75" Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="0.7*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Width="100" Height="75" VerticalAlignment="Center" Source="{Binding MainImagePath, TargetNullValue='../nonImage.png'}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Visibility="Collapsed" Text="{Binding Id}"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Title}" Foreground="#FFF" FontSize="15" TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Description}" Foreground="#FFF" Opacity="0.7" TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding DurationInSeconds, StringFormat={}Идет времени: {0}}" Foreground="#FFF" Opacity="0.7" TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Cost, StringFormat={}{0:F2}}" Foreground="#FFF" Opacity="0.7" Margin="0 0 0 -5" TextDecorations="Strikethrough"/>
+                                <TextBlock Text="{Binding DiscountPrice, StringFormat={}{0:F2}}" FontSize="20" FontWeight="ExtraBold" Foreground="#FFE2B470"/>
+                            </StackPanel>
+                            <Button Grid.Column="3" FontSize="20" Content="X" Style="{StaticResource ExitButton}" Foreground="#FF7F3A3A" BorderThickness="0" Background="Transparent" FontWeight="ExtraBold" Click="Button_Click_1"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!--Нижняя панель для отображения цены и возможности покупки.-->
+        <Grid Grid.Row="2" 
+              Background="#FFDADADA" 
+              x:Name="gridDownMenu">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="1" Background="#FFDADADA">
+                <TextBlock x:Name="costText" 
+                           HorizontalAlignment="Left" 
+                           Text="{Binding ElementName=page, Path=CostSum, StringFormat={}{0:F2}}" 
+                           Foreground="#FF636363" 
+                           Margin="0 0 0 -5" 
+                           TextDecorations="Strikethrough"/>
+                <TextBlock x:Name="discountText" 
+                           HorizontalAlignment="Left" 
+                           Text="{Binding ElementName=page, Path=DiscountPriceSum, StringFormat={}{0:F2} р.}" 
+                           Foreground="#FFCC7A00" 
+                           FontSize="20"/>
+                <TextBlock x:Name="countText" 
+                           HorizontalAlignment="Left" 
+                           Text="{Binding ElementName=page, Path=CountList, StringFormat={}Количество товара: {0}}" 
+                           Foreground="#FF252525" 
+                           Margin="0 -5 0 0"/>
+            </StackPanel>
+            <Grid Grid.Row="2" Grid.Column="2" Background="#FFDADADA">
+                <Button Style="{StaticResource ExitButton}" 
+                        Click="Button_Click_2">
+                    <Border CornerRadius="10" 
+                            Width="300" 
+                            Height="40">
+                        <Border.Background>
+                            <SolidColorBrush Color="#FF176910"/>
+                        </Border.Background>
+                        <TextBlock Text="Купить" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center" 
+                                   Foreground="#FFF" 
+                                   FontSize="30" 
+                                   FontWeight="Bold"/>
+                    </Border>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

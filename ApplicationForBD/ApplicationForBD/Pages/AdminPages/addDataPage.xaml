@@ -1,0 +1,68 @@
+﻿<Page x:Class="ApplicationForBD.Pages.addDataPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ApplicationForBD.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="addDataPage">
+    <Grid ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!--Название страницы-->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Добавление записи" FontSize="20" Foreground="#FFF" TextAlignment="Center"/>
+        
+        <!--Кнопка возрата-->
+        <Button x:Name="backButton" 
+                Content="Back" 
+                BorderThickness="0" 
+                Background="Transparent"
+                HorizontalAlignment="Left"
+                Foreground="#FFF"
+                Click="backButton_Click"/>
+        <!--Контейнеры-->
+        <!--Контейнер для кода. Добавляются текстовые блоки (TextBlocks)-->
+        <StackPanel x:Name="stackPanelLeft" 
+                    Grid.Row="1" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Center"/>
+        <!--Контейнер для кода. Добавляются текстовые поля (TextBoxs)-->
+        <StackPanel x:Name="stackPanelRight" 
+                    Grid.Row="1" 
+                    Grid.Column="1" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Center"/>
+        
+        <!--Кнопка подтверждения пользователем, что он хочет добавит запись-->
+        <Button Name="AddButton" 
+                Grid.Row="2" 
+                Grid.ColumnSpan="2" 
+                Width="300" 
+                Style="{StaticResource ExitButton}" 
+                Content="Добавить" 
+                FontSize="20" Background=
+                "#FFF7F6D0" 
+                Click="AddButton_Click"/>
+        
+        <!--Чекбокс подтверждающий, что первое поле уникальное-->
+        <CheckBox x:Name="checkedId" 
+                  Grid.Column="1" 
+                  Foreground="#FFF" 
+                  Content="id - identity"
+                  BorderThickness="0"
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Right" 
+                  IsChecked="{x:Null}"
+                  Checked="CheckBox_Checked" 
+                  Unchecked="CheckBox_Unchecked"/>
+    </Grid>
+</Page>

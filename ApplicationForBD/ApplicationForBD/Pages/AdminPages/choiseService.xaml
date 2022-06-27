@@ -1,0 +1,304 @@
+﻿<Page x:Class="ApplicationForBD.Pages.choiseService"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ApplicationForBD.Pages"
+      
+      mc:Ignorable="d" 
+      d:DesignHeight="690" d:DesignWidth="980"
+      Title="Админ панель: список услуг" x:Name="pageService">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!--Список ListView настроенный на плиточную настройку-->
+        <ListView x:Name="listService" Grid.Row="2" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" BorderThickness="0" SelectionChanged="listService_SelectionChanged">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="245" Height="400" VerticalAlignment="Center" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="170"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!--Фон объекта-->
+                        <Border CornerRadius="10" Grid.RowSpan="2">
+                            <Border.Background>
+                                <RadialGradientBrush RadiusX="1" RadiusY="1">
+                                    <GradientStop Color="#408DD2" Offset="0"/>
+                                    <GradientStop Color="#FF25649E" Offset="1"/>
+                                </RadialGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <!--Поле для изображения и его относительного пути-->
+                        <StackPanel>
+                            <Image Width="200" 
+                                   Height="150" 
+                                   VerticalAlignment="Center"
+                                   Source="{Binding MainImagePath, TargetNullValue='../nonImage.png'}"/>
+                            <TextBox x:Name="pathText" 
+                                     Text="{Binding MainImagePath}" 
+                                     Foreground="#FFF"
+                                     Background="Transparent" 
+                                     BorderThickness="0"/>
+                        </StackPanel>
+
+                        <!--Другие объекты TextBox, настроенные на редактирование плиток сразу-->
+                        <StackPanel Grid.Row="1" 
+                                    VerticalAlignment="Center">
+
+                            <!--ID, изменить нельзя-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Id: " 
+                                           Foreground="#FFF"/>
+                                <TextBlock x:Name="IdTextBlock" 
+                                           Text="{Binding Path=Id}" 
+                                           Background="Transparent" 
+                                           Foreground="#FFF"/>
+                            </StackPanel>
+
+                            <!--Имя title, Service-->
+                            <TextBlock Text="Имя: " 
+                                       Foreground="#FFF"/>
+                            <TextBox x:Name="titleText" 
+                                     Text="{Binding Path=Title}" 
+                                     FontSize="15" 
+                                     Foreground="#FFF" 
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Opacity="0.9" 
+                                     HorizontalAlignment="Left" 
+                                     TextWrapping="Wrap"/>
+                            
+                            <!--Скидка Discount, Service-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Скидка: " 
+                                           Foreground="#FFF"/>
+                                <TextBox x:Name="discountText" 
+                                         Text="{Binding Path=Discount, StringFormat={}{0:F2}}" 
+                                         Foreground="#e7fabf"
+                                         Background="Transparent"
+                                         BorderThickness="0"/>
+                            </StackPanel>
+                            
+                            <!--Цена Cost, Service-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Цена: " 
+                                           Foreground="#FFF"/>
+                                <TextBox x:Name="costText" 
+                                         Text="{Binding Path=Cost, StringFormat={}{0:F2}}" 
+                                         FontSize="20" 
+                                         FontWeight="Bold" 
+                                         Foreground="#FFF" 
+                                         Background="Transparent" 
+                                         BorderThickness="0"/>
+                            </StackPanel>
+
+                            <!--Описание Description, Service-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Описание: " 
+                                           Foreground="#FFF"/>
+                                <TextBox x:Name="descriptionText" 
+                                         Text="{Binding Path=Description}" 
+                                         Background="Transparent"
+                                         Foreground="#FFF"
+                                         BorderThickness="0" />
+                            </StackPanel>
+
+                            <!--Время и описание -->
+                            <Grid VerticalAlignment="Bottom">
+                                <StackPanel Orientation="Horizontal" 
+                                            Margin="0 0 0 0" 
+                                            Grid.Row="2">
+                                    <TextBlock Text="Время: " 
+                                               Foreground="#FFF"/>
+                                    <TextBox x:Name="durationText" 
+                                             Text="{Binding Path=DurationInSeconds, StringFormat={}{0}}" 
+                                             Margin="0 0 0 0" 
+                                             Foreground="#FFF" 
+                                             Opacity="0.5" 
+                                             Background="Transparent" 
+                                             BorderThickness="0"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!--Нижняя панель. Редактирование записей.-->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#FF7B97B1">
+            <!--Кнопки. В будущем изменить на UserController в пользу уменьшения кода-->
+            <!--Кпопка добавление -->
+            <Button x:Name="addBtn" 
+                    Style="{StaticResource ExitButton}" 
+                    Width="80"
+                    Cursor="Hand"
+                    Foreground="#FFF" 
+                    BorderThickness="0" 
+                    Background="Transparent" 
+                    Click="addBtn_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Left" >
+                        <Image Source="/images/addIcon.png"/>
+                        <TextBlock Text="Добавить" 
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <!--Редактирование. кнопка -->
+            <Button x:Name="editBtn" 
+                    Style="{StaticResource ExitButton}" 
+                    Width="80" 
+                    Foreground="#FFF" 
+                    Background="Transparent" 
+                    Opacity="0.5" 
+                    BorderThickness="0" 
+                    Cursor="Hand" 
+                    IsEnabled="False"
+                    Click="editBtn_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/images/editIcon.png"/>
+                        <TextBlock Text="Изменить" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <!--Удаление кнопка.-->
+            <Button x:Name="delBtn" Style="{StaticResource ExitButton}" Width="80" Foreground="#FFF" IsEnabled="False" Opacity="0.5" BorderThickness="0" Background="Transparent" Click="delBtn_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/images/deleteIcon.png"/>
+                        <TextBlock Text="Удалить" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <!--Кпопка добавление -->
+            <Button x:Name="refreshBtn" 
+                    Style="{StaticResource ExitButton}" 
+                    Background="Transparent" 
+                    Foreground="#FFF" 
+                    BorderThickness="0" 
+                    IsEnabled="True" 
+                    Cursor="Hand"
+                    Click="refreshBtn_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/images/refreshIcon.png"/>
+                        <TextBlock Text="Перезагрузить" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        
+        <!-- Вверхняя панель. Сортировка записей.-->
+        <StackPanel Orientation="Horizontal" Background="#FF7B97B1">
+            
+            <!--Строка поиска -->
+            <TextBox x:Name="findTextBox" 
+                     Width="200" 
+                     Text="Поиск..." 
+                     VerticalContentAlignment="Center" 
+                     BorderThickness="0" 
+                     FontSize="15" 
+                     Foreground="#999" 
+                     IsKeyboardFocusedChanged="findTextBox_IsKeyboardFocusedChanged" 
+                     PreviewKeyDown="findTextBox_PreviewKeyDown" 
+                     IsKeyboardFocusWithinChanged="findTextBox_IsKeyboardFocusWithinChanged"/>
+            <Image Source="/images/searchIcon.png"/>
+            <!--UserController слайдер с двумя ползунками. -->
+            <local:RangeSlider x:Name="betweenSlider" 
+                               Width="200"
+                               Maximum="{Binding ElementName=pageService, Path=MaxValue}" 
+                               Minimum="{Binding ElementName=pageService, Path=MinValue}" 
+                               LowerValue="{Binding ElementName=pageService, Path=MinValue}" 
+                               UpperValue="{Binding ElementName=pageService, Path=MaxValue}" 
+                               VerticalAlignment="Center" 
+                               FirstSlider="betweenSlider_FirstSlider" 
+                               SecondSlider="betweenSlider_SecondSlider"/>
+            <!--Кнопка сортировки. По возрастанию/убыванию -->
+            <Button x:Name="orderButton" Style="{StaticResource ExitButton}" Visibility="Visible" Click="orderButton_Click">
+                <Image Source="/images/OrderByNoDesk.png"/>
+            </Button>
+            <Button x:Name="orderDeskButton" Style="{StaticResource ExitButton}" Visibility="Collapsed" Click="orderDeskButton_Click">
+                <Image Source="/images/OrderByDesk.png"/>
+            </Button>
+            
+            <!--Выбор сортировки по какому признаку.-->
+            <ComboBox BorderThickness="0" 
+                      Background="#000" 
+                      VerticalContentAlignment="Center" 
+                      Foreground="#000" 
+                      Width="100" 
+                      HorizontalContentAlignment="Center" 
+                      Text="Сортировать..." 
+                      IsEditable="True" 
+                      IsReadOnly="True">
+                <ComboBoxItem x:Name="costComboBox" 
+                              IsSelected="False" 
+                              Selected="costComboBox_Selected">
+                    <TextBlock Text="По цене"/>
+                </ComboBoxItem>
+                
+                
+                <ComboBoxItem x:Name="alphabetComboBox" 
+                              IsSelected="False" 
+                              Selected="costComboBox_Selected">
+                    <TextBlock Text="По алфавиту"/>
+                </ComboBoxItem>
+                
+                
+                <ComboBoxItem x:Name="timeComboBox" 
+                              IsSelected="False" 
+                              Selected="costComboBox_Selected">
+                    <TextBlock Text="По времени"/>
+                </ComboBoxItem>
+            </ComboBox>
+
+            <!--ЧекБокс только со скидкой-->
+            <CheckBox x:Name="DiscountCheck" 
+                      VerticalAlignment="Center" 
+                      Content="Только со скидкой" 
+                      Foreground="#FFF" 
+                      BorderThickness="0" 
+                      IsChecked="False" 
+                      Checked="CheckBox_Checked" 
+                      Unchecked="CheckBox_Checked"/>
+
+            <!--Кнопка вызова SQL - запросника -->
+            <Button Name="SQLQuery"  
+                    BorderThickness="0" 
+                    Background="Transparent" 
+                    Margin="30 0 0 0" 
+                    Foreground="#FF8EC57F" 
+                    FontWeight="Bold" 
+                    Click="SQLQuery_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/images/sqlqueryIcon.png"/>
+                        <TextBlock Text="Sql-запрос" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        
+        <!--Текстовый блок, который появляется в виде анимации об успешной или провальной записи.-->
+        <TextBlock Grid.Row="2" x:Name="CompleteText" Text="Данные изменены" Foreground="#FFF" VerticalAlignment="Bottom" FontSize="80" HorizontalAlignment="Center" Opacity="0" Background="#BF0C6EF1"/>
+    </Grid>
+</Page>

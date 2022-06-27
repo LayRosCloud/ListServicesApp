@@ -1,0 +1,44 @@
+﻿<Page x:Class="ApplicationForBD.Pages.AdaptiveTablePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ApplicationForBD.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="690" d:DesignWidth="980"
+      Title="AdaptiveTablePage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <!--Фон-->
+        <Border CornerRadius="10" Grid.Row="2" Opacity="0.5">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0 0" EndPoint="0.5 1">
+                    <GradientStop Color="#E55D87" Offset="0"/>
+                    <GradientStop Color="#5FC3E4" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        
+        <!--список-->
+        <ListView x:Name="listService" Foreground="#003973" FontWeight="Bold" Opacity="0.8" Grid.Row="2" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" BorderThickness="0" SelectionChanged="listService_SelectionChanged"/>
+        
+        <!--вверхняя панель UI-->
+        <StackPanel Orientation="Horizontal" Background="#FF7B97B1">
+            <Button Content="Sql query" Style="{StaticResource ExitButton}" FontWeight="Bold"/>
+        </StackPanel>
+
+        <!--нижняя панель UI-->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Background="#FF7B97B1">
+            <Button Style="{StaticResource ExitButton}" Content="Добавить" Foreground="#FFF" Width="70" Click="Button_Click"/>
+            <Button x:Name="editButton" Style="{StaticResource ExitButton}" Content="Изменить" IsEnabled="False" Opacity="0.5" Foreground="#FFF" Width="70" Click="editButton_Click"/>
+            <Button x:Name="deleteButton" Style="{StaticResource ExitButton}" Content="Удалить" IsEnabled="False" Opacity="0.5" Foreground="#FFF" Width="70" Click="deleteButton_Click"/>
+            <Button x:Name="refreshButton" Style="{StaticResource ExitButton}" Content="Перезагрузить" Foreground="#FFF" Width="80" Click="refreshButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

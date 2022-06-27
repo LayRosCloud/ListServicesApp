@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="ApplicationForBD.Pages.RangeSlider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ApplicationForBD.Pages"
+             xmlns:local1="clr-namespace:ApplicationForBD"
+             mc:Ignorable="d" 
+             x:Name="root">
+    <StackPanel>
+        <Grid>
+            <Slider x:Name="UpperSlider"
+                 Style="{StaticResource LowerSlider}"
+                Value="{Binding ElementName=root, Path=UpperValue}"
+                Maximum="{Binding ElementName=root, Path=Maximum}"
+                Minimum="{Binding ElementName=root, Path=Minimum}"
+                    TickFrequency="1"
+                    ValueChanged="UpperSlider_ValueChanged" TickPlacement="TopLeft"/>
+            <Slider x:Name="LowerSlider" 
+                Style="{StaticResource UpperSlider}"
+                Value="{Binding ElementName=root, Path=LowerValue}"
+                Maximum="{Binding ElementName=root, Path=Maximum}"
+                Minimum="{Binding ElementName=root, Path=Minimum}"
+                ValueChanged="LowerSlider_ValueChanged"
+                    TickFrequency="1" TickPlacement="TopLeft"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox x:Name="lowerTextBox" Text="{Binding ElementName=LowerSlider, Path=Value, StringFormat={}{0:F0}}" Foreground="#FFF" BorderThickness="0" Background="Transparent" Margin="0" Padding="0" IsKeyboardFocusedChanged="lowerTextBox_IsKeyboardFocusedChanged"/>
+            <TextBlock Text="-" Foreground="#FFF" Background="Transparent" Margin="0" Padding="0"/>
+            <TextBox x:Name="UpperTextBox" Text="{Binding ElementName=UpperSlider, Path=Value, StringFormat={}{0:F0}}" Foreground="#FFF" BorderThickness="0" Background="Transparent" Margin="0" Padding="0" IsKeyboardFocusedChanged="UpperTextBox_IsKeyboardFocusedChanged"/>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>
