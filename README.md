@@ -78,4 +78,8 @@ graph TD
     P-->|ProductID| PP(PhotoPath)
     M(Manufacturer)-->|ManufacturerID| P
 ```
-
+## Как запустить на вашем PC?
+Для того чтобы запустить программу на вашем ПК необходимо
+1. Установить программы Microsoft SQL management studio и Visual Studio 2022
+2. Интегрировать БД.
+3. Запустить sln файл и по пути ApplicationForBD-ApplicationDataBases-AppConnect.cs изменить в строчке sqlConnection поля Data Source='имя вашего подключения к бд' и Initial Catalog='имя БД'
