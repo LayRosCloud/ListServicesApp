@@ -63,7 +63,6 @@
 ```mermaid
 graph TD
     U(User)-->|role_id| R(Role)
-    U-->|Email|C
     C(Client)-->|ClientID| TOF
     TOF(TagOfClient)-->|TagID|T(Tag)
     G(Gender) --> |GenderCode| C
