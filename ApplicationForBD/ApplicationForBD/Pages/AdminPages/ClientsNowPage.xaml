@@ -9,15 +9,19 @@
       Title="ClientsNowPage">
     <!--Список настроенный на класс ClientNowCLass-->
     <ListView Grid.Row="1" BorderThickness="0" Background="Transparent" x:Name="listClients" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ListView.GroupStyle>
+            <GroupStyle>
+                <GroupStyle.HeaderTemplate>
+                    <DataTemplate>
+                        <!--Фамилия, имя, отчество, группировка-->
+                        <Label Content="{Binding Name}" Foreground="#FFF" Background="#FF2C5371"/>
+                    </DataTemplate>
+                </GroupStyle.HeaderTemplate>
+            </GroupStyle>
+        </ListView.GroupStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel VerticalAlignment="Center">
-                        <!--Фамилия, имя, отчество-->
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding FirstName, StringFormat={}{0}}" Foreground="#FFF" FontSize="15"/>
-                            <TextBlock Text="{Binding LastName, StringFormat={} {0}}" Foreground="#FFF" FontSize="15"/>
-                            <TextBlock Text="{Binding Patronymic, StringFormat={} {0}}" Foreground="#FFF" FontSize="15"/>
-                        </StackPanel>
                         <!--Заголовок услуги-->
                         <TextBlock Text="{Binding Title}" Foreground="#FFF" FontSize="25"/>
                         <!--Дата начала заказанной услуги-->

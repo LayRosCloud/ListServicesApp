@@ -9,6 +9,16 @@
       Title="Notifications">
     <!--//Список уведомлений.//-->
     <ListView Grid.Row="1" BorderThickness="0" Background="Transparent" x:Name="listNotifications" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ListView.GroupStyle>
+            <GroupStyle>
+                <GroupStyle.HeaderTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding Name, StringFormat={}Через {0} д.}" Foreground="#FFF" Background="#FF3541F1"/>
+                    </DataTemplate>
+                </GroupStyle.HeaderTemplate>
+            </GroupStyle>
+        </ListView.GroupStyle>
+        
         <ListView.ItemTemplate>
             <DataTemplate>
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">

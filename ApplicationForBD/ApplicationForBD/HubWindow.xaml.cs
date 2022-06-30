@@ -1,6 +1,7 @@
 ﻿using ApplicationForBD.ApplicationDataBases;
 using ApplicationForBD.Pages;
 using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Input;
@@ -19,19 +20,12 @@ namespace ApplicationForBD
 
         private void InitializeComponents()
         {
-            SqlCommand sql = new SqlCommand(SaveElementFrame.QueryString, AppConnect.GetConnection);
-            AppConnect.OpenConnection();
-            SqlDataReader reader = sql.ExecuteReader();
+            SqlDataReader reader = AppConnect.GetOpenReader(SaveElementFrame.QueryString);
             reader.Read();
-            SaveElementFrame.NameUser = reader.GetString(1);
-            SaveElementFrame.EmailUser = reader.GetString(3);
-            SaveElementFrame.RoleUser = reader.GetInt32(4);
+            InitializeSaveElement(reader);
 
-            SaveElementFrame.frameHub = HubFrame;
             AppConnect.CloseConnection();
-            SqlCommand sql1 = new SqlCommand($"Select * From [dbo].[Client] WHERE Email = '{SaveElementFrame.EmailUser}'", AppConnect.GetConnection);
-            AppConnect.OpenConnection();
-            reader = sql1.ExecuteReader();
+            reader = AppConnect.GetOpenReader($"Select * From [dbo].[Client] WHERE Email = '{SaveElementFrame.EmailUser}'");
             if (reader.HasRows)
             {
                 reader.Read();
@@ -53,9 +47,7 @@ namespace ApplicationForBD
 
             if (SaveElementFrame.client != null)
             {
-                SqlCommand sql2 = new SqlCommand($"Select * From [dbo].[ClientService] WHERE ClientID = {SaveElementFrame.client.ID}", AppConnect.GetConnection);
-                AppConnect.OpenConnection();
-                reader = sql2.ExecuteReader();
+                reader = AppConnect.GetOpenReader($"Select * From [dbo].[ClientService] WHERE ClientID = {SaveElementFrame.client.ID}");
                 if (reader.HasRows)
                 {
                     int count = 0;
@@ -68,6 +60,8 @@ namespace ApplicationForBD
                 }
                 AppConnect.CloseConnection();
             }
+            notificationCountBorder.Visibility = Convert.ToInt32(CountNotificies.Text) == 0 ? Visibility.Collapsed: Visibility.Visible;
+            
             HubFrame.Navigate(new ServicesPage());
             SaveElementFrame.NameTextBlock = nameUserText;
             SaveElementFrame.ReductionTextBlock = reductionText;
@@ -85,6 +79,17 @@ namespace ApplicationForBD
             }
         }
 
+        private void InitializeSaveElement(IDataRecord reader)
+        {
+            SaveElementFrame.NameUser = reader.GetString(1);
+            SaveElementFrame.EmailUser = reader.GetString(3);
+            SaveElementFrame.RoleUser = reader.GetInt32(4);
+
+            SaveElementFrame.borderCount = notificationCountBorder;
+            SaveElementFrame.countNot = CountNotificies;
+
+            SaveElementFrame.frameHub = HubFrame;
+        }
         private void HideButton_Click(object sender, RoutedEventArgs e)
             => WindowState = WindowState.Minimized;
 

@@ -32,9 +32,7 @@ namespace ApplicationForBD.Pages
             GridView myGridView = new GridView();
             myGridView.AllowsColumnReorder = true;
 
-            SqlCommand sql = new SqlCommand($"SELECT * FROM [dbo].[{table}]", AppConnect.GetConnection);
-            AppConnect.OpenConnection();
-            SqlDataReader reader = sql.ExecuteReader();
+            SqlDataReader reader = AppConnect.GetOpenReader($"SELECT * FROM [dbo].[{table}]");
 
             for (int i = 0; i < reader.FieldCount; i++)
             {
@@ -86,9 +84,7 @@ namespace ApplicationForBD.Pages
             ArrayList values = new ArrayList();
             List<ArrayList> valuesMagic = new List<ArrayList>();
             ArrayList temp = new ArrayList();
-            SqlCommand sql = new SqlCommand(query, AppConnect.GetConnection);
-            AppConnect.OpenConnection();
-            SqlDataReader reader = sql.ExecuteReader();
+            SqlDataReader reader = AppConnect.GetOpenReader(query);
 
             switch (table.ToLower())
             {

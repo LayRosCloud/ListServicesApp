@@ -20,21 +20,31 @@ namespace ApplicationForBD.Pages
         public int CountList { get; set; } = SaveElementFrame.listService.Count;
         public ShoppingCardPage()
         {
+            CountingSum();
+            InitializeComponent();
+            nothingService.Visibility = SaveElementFrame.listService.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            InitializeList();
+            gridDownMenu.Visibility = SaveElementFrame.listService.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+            backButton.Text = "<";
+        }
+        private void CountingSum()
+        {
+            CostSum = 0;
+            DiscountPriceSum = 0;
             for (int i = 0; i < SaveElementFrame.listService.Count; i++)
             {
                 CostSum += SaveElementFrame.listService[i].Cost;
                 DiscountPriceSum += SaveElementFrame.listService[i].DiscountPrice;
             }
-            InitializeComponent();
-            nothingService.Visibility = SaveElementFrame.listService.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+        private void InitializeList()
+        {
             for (int i = 0; i < SaveElementFrame.listService.Count; i++)
             {
                 listServicesBuy.Items.Add(SaveElementFrame.listService[i]);
             }
-            gridDownMenu.Visibility = SaveElementFrame.listService.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
-            backButton.Text = "<";
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             SaveElementFrame.frameHub.Navigate(new ServicesPage());
@@ -66,9 +76,7 @@ namespace ApplicationForBD.Pages
         }
         private DateTime GetMaxDate(Service serv)
         {
-            SqlCommand sql = new SqlCommand($"SELECT ServiceID, StartTime FROM [dbo].[ClientService] WHERE ServiceID = {serv.Id}", AppConnect.GetConnection);
-            AppConnect.OpenConnection();
-            SqlDataReader reader = sql.ExecuteReader();
+            SqlDataReader reader = AppConnect.GetOpenReader($"SELECT ServiceID, StartTime FROM [dbo].[ClientService]");
             DateTime date = DateTime.MinValue;
             while (reader.Read())
             {
@@ -78,19 +86,25 @@ namespace ApplicationForBD.Pages
             AppConnect.CloseConnection();
 
             if (date < DateTime.Now)
-                date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1, 8, 0, 0);
-            if (date.TimeOfDay + new TimeSpan(0, Convert.ToInt32(serv.DurationInSeconds), 0) > new TimeSpan(19, 0, 0))
-                date = new DateTime(date.Year, date.Month, date.Day + 1, 8, 0, 0);
-            SqlCommand sqlClient = new SqlCommand($"SELECT StartTime, s.DurationInSeconds FROM [dbo].[ClientService] cs, [dbo].[Service] s WHERE ClientID = {SaveElementFrame.client.ID} AND cs.ServiceID = s.ID", AppConnect.GetConnection);
-            AppConnect.OpenConnection();
-            reader = sqlClient.ExecuteReader();
+            {
+                date = DateTime.Now.AddDays(1);
+                date = new DateTime(date.Year, date.Month, date.Day, 8, 0, 0);
+            }
+
+            reader = AppConnect.GetOpenReader($"SELECT StartTime, s.DurationInSeconds FROM [dbo].[ClientService] cs, [dbo].[Service] s WHERE cs.ServiceID = s.ID");
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
-                    if (date <= reader.GetDateTime(0).AddMinutes(reader.GetInt32(1)/60.0))
+                    if (date <= reader.GetDateTime(0).AddMinutes(reader.GetInt32(1) / 60.0))
                     {
-                        date = date.AddMinutes(reader.GetInt32(1) / 60.0);
+                        if (date.AddMinutes(reader.GetInt32(1) / 60.0) >= new DateTime(date.Year, date.Month, date.Day, 19, 0, 0))
+                        {
+                            date = date.AddDays(1);
+                            date = new DateTime(date.Year, date.Month, date.Day, 8, 0, 0);
+                        }
+                        else
+                            date = date.AddMinutes(reader.GetInt32(1)/60.0);
                     }
                 }
             }
@@ -111,6 +125,7 @@ namespace ApplicationForBD.Pages
                     if (sql.ExecuteNonQuery() == 1)
                     {
                         AppConnect.CloseConnection();
+                        
                     }
                     else
                     {
@@ -118,10 +133,32 @@ namespace ApplicationForBD.Pages
                         AppConnect.CloseConnection();
 
                     }
-
+                    
                 }
+
+                if (SaveElementFrame.client != null)
+                {
+                    SqlDataReader reader = AppConnect.GetOpenReader($"Select * From [dbo].[ClientService] WHERE ClientID = {SaveElementFrame.client.ID}");
+                    if (reader.HasRows)
+                    {
+                        int count = 0;
+                        while (reader.Read())
+                        {
+                            if (reader.GetDateTime(3) >= DateTime.Now)
+                                count++;
+                        }
+                        SaveElementFrame.countNot.Text = count.ToString();
+                        SaveElementFrame.borderCount.Visibility = count == 0 ? Visibility.Collapsed : Visibility.Visible;
+
+                    }
+                    AppConnect.CloseConnection();
+                }
+
                 SaveElementFrame.listService.Clear();
                 listServicesBuy.Items.Clear();
+                gridDownMenu.Visibility = SaveElementFrame.listService.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+                nothingService.Visibility = SaveElementFrame.listService.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+
             }
             else
             {

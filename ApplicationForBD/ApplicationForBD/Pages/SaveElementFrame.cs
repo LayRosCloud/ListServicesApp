@@ -22,6 +22,8 @@ namespace ApplicationForBD.Pages
         public static TextBlock NameTextBlock { get; set; } 
         public static TextBlock ReductionTextBlock { get; set; } 
         public static TextBlock EmailTextBlock { get; set; } 
+        public static TextBlock countNot { get; set; }
+        public static Border borderCount { get; set; }
         public static List<Service> listService = new List<Service>();
 
     }

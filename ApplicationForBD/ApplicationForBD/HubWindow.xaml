@@ -88,15 +88,17 @@
                            Source="/images/notifications.png" 
                            Width="38" 
                            HorizontalAlignment="Right"/>
-                    <Border Width="25" 
+                    <Border x:Name="notificationCountBorder"
+                        Width="25" 
                             Height="25" 
                             VerticalAlignment="Bottom" 
                             HorizontalAlignment="Right" 
-                            CornerRadius="25">
+                            CornerRadius="25"
+                            Visibility="Collapsed">
                         <Border.Background>
                             <SolidColorBrush Color="#FFFFAD1A"/>
                         </Border.Background>
-                        <TextBlock x:Name="CountNotificies" VerticalAlignment="Center" HorizontalAlignment="Center" Text="100" Foreground="#FFF" FontSize="10"/>
+                        <TextBlock x:Name="CountNotificies" VerticalAlignment="Center" HorizontalAlignment="Center" Text="0" Foreground="#FFF" FontSize="10"/>
                     </Border>
                 </Grid>
             </Button>

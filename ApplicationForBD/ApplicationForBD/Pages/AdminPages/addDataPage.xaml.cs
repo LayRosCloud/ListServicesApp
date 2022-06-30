@@ -51,10 +51,7 @@ namespace ApplicationForBD.Pages
             temp.Clear();
             stackPanelLeft.Children.Clear();
             stackPanelRight.Children.Clear();
-            SqlCommand sqlCommand = new SqlCommand(queryString, AppConnect.GetConnection);
-
-            AppConnect.OpenConnection();
-            SqlDataReader reader = sqlCommand.ExecuteReader();
+            SqlDataReader reader = AppConnect.GetOpenReader(queryString);
 
             for (int i = startOutPut; i < reader.FieldCount; i++)
             {
@@ -251,16 +248,13 @@ namespace ApplicationForBD.Pages
                     query += date.Text + ")";
                 }
             }
-            SqlCommand sql = new SqlCommand(query, AppConnect.GetConnection);
-            AppConnect.OpenConnection();
+            SqlCommand sql = AppConnect.GetOpenSqlCommand(query);
             if (sql.ExecuteNonQuery() == 1)
-            {
                 MessageBox.Show("Успех! Данные добавлены");
-            }
+            
             else
-            {
                 MessageBox.Show("Данные не записались=(");
-            }
+            
             AppConnect.CloseConnection();
         }
 

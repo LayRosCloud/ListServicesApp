@@ -42,6 +42,7 @@ namespace ApplicationForBD.Pages
                     }
                 }
                 listNotifications.ItemsSource = (from s in notifications orderby s.NotificationDate, s.DateStart select s).ToList();
+                listNotifications.Items.GroupDescriptions.Add(new PropertyGroupDescription("NotificationDate"));
             }
 
         }

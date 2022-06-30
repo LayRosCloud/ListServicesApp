@@ -31,5 +31,14 @@ namespace ApplicationForBD.ApplicationDataBases
         {
             get => sqlConnection;
         }
+
+        public static SqlDataReader GetOpenReader(string query)
+            => GetOpenSqlCommand(query).ExecuteReader();
+        
+        public static SqlCommand GetOpenSqlCommand(string query)
+        {
+            OpenConnection();
+            return new SqlCommand(query, GetConnection);
+        }
     }
 }

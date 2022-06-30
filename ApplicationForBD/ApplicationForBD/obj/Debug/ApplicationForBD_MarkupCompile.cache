@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\betrayal\Desktop\project\ApplicationForBD\ApplicationForBD\obj\Debug\
+C:\Users\betrayal\Documents\GitHub\ListServicesApp\ApplicationForBD\ApplicationForBD\obj\Debug\
 ApplicationForBD
 none
 false
 DEBUG;TRACE
-C:\Users\betrayal\Desktop\project\ApplicationForBD\ApplicationForBD\App.xaml
+C:\Users\betrayal\Documents\GitHub\ListServicesApp\ApplicationForBD\ApplicationForBD\App.xaml
 181618439859
 
 43-1801257419
-23-1344969289
+231115263490
 HubWindow.xaml;Pages\AdminPages\AdaptiveTablePage.xaml;Pages\AdminPages\addDataPage.xaml;Pages\AdminPages\AdminPanel.xaml;Pages\AdminPages\choiseService.xaml;Pages\AdminPages\ClientsNowPage.xaml;Pages\AdminPages\EditPage.xaml;Pages\AutorizationPages\IDKPasswordPage.xaml;Pages\AutorizationPages\LoginPage.xaml;MainWindow.xaml;Pages\ClientPages\Notifications.xaml;Pages\ClientPages\Profile.xaml;Pages\RangeSlider.xaml;Pages\AutorizationPages\RegistrationPage.xaml;Pages\ClientPages\ServicesPage.xaml;Pages\ClientPages\ShoppingCardPage.xaml;Pages\AdminPages\TablesPage.xaml;SqlQuery.xaml;
 
 False

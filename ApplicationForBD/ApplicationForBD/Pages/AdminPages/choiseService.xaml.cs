@@ -102,10 +102,7 @@ namespace ApplicationForBD.Pages
             try
             {
                 services.Clear();
-                SqlCommand sql = new SqlCommand(query, AppConnect.GetConnection);
-
-                AppConnect.OpenConnectionAsync();
-                SqlDataReader reader = sql.ExecuteReader();
+                SqlDataReader reader = AppConnect.GetOpenReader(query);
 
                 while (reader.Read())
                     services.Add(AddListService(reader));
@@ -122,10 +119,7 @@ namespace ApplicationForBD.Pages
         }
         private (double, double) FindMaxMinValueDouble(string query) //find Max and Min Value on SQL Query
         {
-            SqlCommand sql = new SqlCommand(query, AppConnect.GetConnection);
-
-            AppConnect.OpenConnection();
-            SqlDataReader reader = sql.ExecuteReader();
+            SqlDataReader reader = AppConnect.GetOpenReader(query);
             double result = default;
             double resultTwo = Double.MaxValue - 5;
             while (reader.Read())
@@ -344,12 +338,9 @@ namespace ApplicationForBD.Pages
             if (serviceObject.IsNull)
                 return;
 
-            MessageBox.Show(serviceObject.Title);
-            SqlCommand sql = new SqlCommand($"DELETE FROM [dbo].[Service] WHERE Id = {serviceObject.Id}", AppConnect.GetConnection);
-            AppConnect.OpenConnection();
+            SqlCommand sql = AppConnect.GetOpenSqlCommand($"DELETE FROM [dbo].[Service] WHERE Id = {serviceObject.Id}");
             if (sql.ExecuteNonQuery() == 1)
                 CompleteTextAnimation("Данные удалены");
-                
             else
                 CompleteTextAnimation("Данные не удалены");
             

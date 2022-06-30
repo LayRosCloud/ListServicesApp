@@ -11,6 +11,7 @@ namespace ApplicationForBD.ApplicationDataBases
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Patronymic { get; set; }
+        public string FullName { get => FirstName + " " + LastName + " " + Patronymic; }
         public string Title { get; set; }
         public DateTime StartTime { get; set; }
         public ClientNowCLass(string first, string last, string patronymic, string title, DateTime date)
