@@ -44,6 +44,7 @@ graph TD
 1. Установить программы Microsoft SQL management studio и Visual Studio 2022
 2. Интегрировать БД.
 3. Запустить sln файл и по пути ApplicationForBD-ApplicationDataBases-AppConnect.cs изменить в строчке sqlConnection поля Data Source='имя вашего подключения к бд' и Initial Catalog='имя БД'
+4. Запустить проект.
 ## Аккаунты
 #### Аккаунты без личных данных
 * login: admin, password: admin, email: admin@admin.ru, role: admin
