@@ -87,11 +87,11 @@ graph TD
 login: admin, password: admin, email: admin@admin.ru, role: admin
 login: client, password: client, email: client@client.ru, role: default
 #### Аккаунты с личными данными
-login: 1, password: 1, email: miturria@verizon.net, role: default
-login: 2, password: 2, email: claesjac@me.com, role: default
-login: 3, password: 3, email: ozawa@verizon.net, role: default
+* login: 1, password: 1, email: miturria@verizon.net, role: default
+* login: 2, password: 2, email: claesjac@me.com, role: default
+* login: 3, password: 3, email: ozawa@verizon.net, role: default
 ...
-login: 49, password: 49 email: attwood@aol.com, role: default
-login 50, password 50, email: drezet@yahoo.com, role: default
+* login: 49, password: 49 email: attwood@aol.com, role: default
+* login 50, password 50, email: drezet@yahoo.com, role: default
 
 
